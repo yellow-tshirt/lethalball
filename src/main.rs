@@ -1,9 +1,7 @@
-use std::io::ErrorKind::ResourceBusy;
 use bevy::prelude::*;
 use bevy_rapier2d::prelude::*;
 
 fn main() {
-    println!("My game");
     App::new()
         .add_plugins(DefaultPlugins)
         .add_plugins(RapierPhysicsPlugin::<NoUserData>::pixels_per_meter(100.0))
@@ -14,7 +12,7 @@ fn main() {
 }
 
 #[derive(Component)]
-struct C {}
+struct C;
 
 fn setup(
     mut commands: Commands,
@@ -29,17 +27,19 @@ fn setup(
         //physics
         Collider::ball(30.0),
         Restitution::coefficient(1.0),
+        RigidBody::Fixed,
         //phsyics end
         Mesh2d(circle),
         MeshMaterial2d(materials.add(color)),
         Transform::from_xyz(0.0, 0.0, 0.0),
     ));
     //get ground
-    let ground = meshes.add(Rectangle::new(500.0, 50.0));
+    let ground = meshes.add(Circle::new(30.0));
     let color = Color::srgb(0.39, 0.39, 0.82);
-    commands.spawn((Mesh2d(ground),MeshMaterial2d(materials.add(color)), Collider::cuboid(500.0,50.0), Transform::from_xyz(0.0, -100.0, 0.0)))
+    commands.spawn((Mesh2d(ground),MeshMaterial2d(materials.add(color)), Collider::ball(30.0), Transform::from_xyz(0.0, -100.0, 0.0)))
         .insert(Restitution::coefficient(1.0))
-        .insert(RigidBody::KinematicPositionBased);
+        .insert(GravityScale(0.0))
+        .insert(RigidBody::Dynamic);
 }
 
 fn move_circle(
