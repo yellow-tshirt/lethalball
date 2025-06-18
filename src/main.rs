@@ -26,8 +26,8 @@ fn setup(
         C{},
         //physics
         Collider::ball(30.0),
-        Restitution::coefficient(1.0),
-        RigidBody::Fixed,
+        Restitution::coefficient(0.1),
+        RigidBody::KinematicPositionBased,
         //phsyics end
         Mesh2d(circle),
         MeshMaterial2d(materials.add(color)),
@@ -37,7 +37,7 @@ fn setup(
     let ground = meshes.add(Circle::new(30.0));
     let color = Color::srgb(0.39, 0.39, 0.82);
     commands.spawn((Mesh2d(ground),MeshMaterial2d(materials.add(color)), Collider::ball(30.0), Transform::from_xyz(0.0, -100.0, 0.0)))
-        .insert(Restitution::coefficient(1.0))
+        .insert(Restitution::coefficient(0.1))
         .insert(GravityScale(0.0))
         .insert(RigidBody::Dynamic);
 }
