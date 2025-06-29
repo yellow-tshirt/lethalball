@@ -33,13 +33,14 @@ fn setup(
         MeshMaterial2d(materials.add(color)),
         Transform::from_xyz(0.0, 0.0, 0.0),
     ));
-    //get ground
-    let ground = meshes.add(Circle::new(30.0));
+    //make second ball
+    let secondBall = meshes.add(Circle::new(30.0));
     let color = Color::srgb(0.39, 0.39, 0.82);
-    commands.spawn((Mesh2d(ground),MeshMaterial2d(materials.add(color)), Collider::ball(30.0), Transform::from_xyz(0.0, -100.0, 0.0)))
+    commands.spawn((Mesh2d(secondBall), MeshMaterial2d(materials.add(color)), Collider::ball(30.0), Transform::from_xyz(0.0, -100.0, 0.0)))
         .insert(Restitution::coefficient(0.1))
         .insert(GravityScale(0.0))
         .insert(RigidBody::Dynamic);
+
 }
 
 fn move_circle(
