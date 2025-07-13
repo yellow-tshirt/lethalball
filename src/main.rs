@@ -34,13 +34,32 @@ fn setup(
         Transform::from_xyz(0.0, 0.0, 0.0),
     ));
     //make second ball
-    let secondBall = meshes.add(Circle::new(30.0));
+    let second_ball = meshes.add(Circle::new(30.0));
     let color = Color::srgb(0.39, 0.39, 0.82);
-    commands.spawn((Mesh2d(secondBall), MeshMaterial2d(materials.add(color)), Collider::ball(30.0), Transform::from_xyz(0.0, -100.0, 0.0)))
+    commands.spawn((Mesh2d(second_ball), MeshMaterial2d(materials.add(color)), Collider::ball(30.0), Transform::from_xyz(0.0, -100.0, 0.0)))
         .insert(Restitution::coefficient(0.1))
         .insert(GravityScale(0.0))
         .insert(RigidBody::Dynamic);
-
+    //make other platforms
+    let bottom_wall = meshes.add(Rectangle::new(1000.0, 10.0));
+    commands.spawn((Mesh2d(bottom_wall), MeshMaterial2d(materials.add(color)), Collider::cuboid(1000.0, 10.0), Transform::from_xyz(0.0, -200.0, 0.0)))
+        .insert(Restitution::coefficient(0.1))
+        .insert(RigidBody::Fixed);
+    //make top
+    let top_wall = meshes.add(Rectangle::new(1000.0, 10.0));
+    commands.spawn((Mesh2d(top_wall), MeshMaterial2d(materials.add(color)), Collider::cuboid(1000.0, 10.0), Transform::from_xyz(0.0, 200.0, 0.0)))
+        .insert(Restitution::coefficient(0.1))
+        .insert(RigidBody::Fixed);
+    //make right
+    let right_wall = meshes.add(Rectangle::new(10.0, 1000.0));
+    commands.spawn((Mesh2d(right_wall), MeshMaterial2d(materials.add(color)), Collider::cuboid(10.0, 1000.0), Transform::from_xyz(300.0, 0.0, 0.0)))
+        .insert(Restitution::coefficient(0.1))
+        .insert(RigidBody::Fixed);
+    //make left
+    let left_wall = meshes.add(Rectangle::new(10.0, 1000.0));
+    commands.spawn((Mesh2d(left_wall), MeshMaterial2d(materials.add(color)), Collider::cuboid(10.0, 1000.0), Transform::from_xyz(-300.0, 0.0, 0.0)))
+        .insert(Restitution::coefficient(0.1))
+        .insert(RigidBody::Fixed);
 }
 
 fn move_circle(
